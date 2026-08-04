@@ -1,0 +1,19 @@
+[project]
+name = "nnfromscratch"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "fmeeusen", email = "friso@meeusen.eu" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "numpy>=2.5.1",
+]
+
+[project.scripts]
+nnfromscratch = "nnfromscratch:main"
+
+[build-system]
+requires = ["uv_build>=0.12.1,<0.13.0"]
+build-backend = "uv_build"
