@@ -11,11 +11,10 @@ def _generate_initial_parameters_for_one_layer(layer_size_1, layer_size_2, seed=
 
 def generate_parameters(layer_sizes, seed=42):
 
-    np.random.seed(seed)
     weights = []
     biases = []
-    for l1,l2 in zip(layer_sizes[:-1], layer_sizes[1:]):
-        w,b=_generate_initial_parameters_for_one_layer(l1,l2)
+    for i,(l1,l2) in enumerate(zip(layer_sizes[:-1], layer_sizes[1:])):
+        w,b=_generate_initial_parameters_for_one_layer(l1,l2, seed=i)
         weights.append(w)
         biases.append(b)
     return weights, biases 
