@@ -9,7 +9,7 @@ def _generate_initial_parameters_for_one_layer(layer_size_1, layer_size_2, seed=
     biases = np.random.normal(size=layer_size_2, scale=0.01) # This does not mean there are similar values in the biases as in the weights. 
     return weights, biases
 
-def generate_parameters(layer_sizes, seed=42):
+def generate_parameters(layer_sizes):
 
     weights = []
     biases = []
@@ -19,5 +19,10 @@ def generate_parameters(layer_sizes, seed=42):
         biases.append(b)
     return weights, biases 
 
-layer_sizes = [2,3,4,6]
-w,b=generate_parameters(layer_sizes)
+def relu(x):
+    return np.maximum(x,0)
+
+def sigmoid(x):
+    return 1/(1+np.exp(-x))
+ 
+    

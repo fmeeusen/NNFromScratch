@@ -2,7 +2,7 @@ import unittest
 import neuron
 import numpy as np
 
-class Test_InitialParameters(unittest.TestCase):
+class Test_ParameterInitialization(unittest.TestCase):
     def setUp(self):
         self.layer_structure = [2, 3, 4, 5, 6]
         weights, biases = neuron.generate_parameters(self.layer_structure)
@@ -27,3 +27,16 @@ class Test_InitialParameters(unittest.TestCase):
             no_of_duplicates, 0,
             f"There have been {no_of_duplicates} non-unique elements found"
         )
+
+class Test_ActivationFunctions(unittest.TestCase):
+    def test_relu_for_negative_value(self):
+        self.assertEqual(neuron.relu(-100),0)
+
+    def test_sigmoid_at_zero(self):
+        self.assertEqual(neuron.sigmoid(0),(1/2))
+
+    def test_sigmoid_at_large_value(self):
+        self.assertAlmostEqual(neuron.sigmoid(1e10),1,8)
+
+# if __name__ == "__main__":
+#     unittest.main()

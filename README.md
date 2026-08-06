@@ -1,2 +1,2 @@
 # NNFromScratch
-In this project I build a neural network from scratch using only the numpy library
+In this project I build a neural network from scratch using only the numpy library. Inspired from https://www.geeksforgeeks.org/deep-learning/building-artificial-neural-networks-ann-from-scratch/
