@@ -38,5 +38,8 @@ class Test_ActivationFunctions(unittest.TestCase):
     def test_sigmoid_at_large_value(self):
         self.assertAlmostEqual(neuron.sigmoid(1e10),1,8)
 
+    def test_sigmoid_at_small_value(self):
+        self.assertAlmostEqual(neuron.sigmoid(-1e10),0,8)
+
 # if __name__ == "__main__":
 #     unittest.main()
