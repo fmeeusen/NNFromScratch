@@ -5,9 +5,9 @@ import numpy as np
 class Test_ParameterInitialization(unittest.TestCase):
     def setUp(self):
         self.layer_structure = [2, 3, 4, 5, 6]
-        weights, biases = neuron.generate_parameters(self.layer_structure)
-        self.flat_weights = np.concatenate(weights)
-        self.flat_biases = np.concatenate(biases)
+        params = neuron.generate_parameters(self.layer_structure)
+        self.flat_weights = np.concatenate(params['w'])
+        self.flat_biases = np.concatenate(params['b'])
         self.flat_params = np.concatenate([self.flat_weights, self.flat_biases])
 
     def test_flat_weights_and_biases_have_expected_length(self):
@@ -40,6 +40,17 @@ class Test_ActivationFunctions(unittest.TestCase):
 
     def test_sigmoid_at_small_value(self):
         self.assertAlmostEqual(neuron.sigmoid(-1e10),0,8)
+
+class Test_ForwardPropagation(unittest.TestCase):
+    def setUp(self):
+        self.layer_structure = [2, 3, 4]
+        self.params = neuron.generate_parameters(self.layer_structure)
+
+    def test_forward_output_for_simple_architecture(self):
+        input_value = np.zeros(self.layer_structure[0])
+        out = neuron.forward_pass(input_value, self.params)
+        self.assertEqual(np.shape(out), (self.layer_structure[-1],))
+        
 
 # if __name__ == "__main__":
 #     unittest.main()
