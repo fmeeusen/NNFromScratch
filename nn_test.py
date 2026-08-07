@@ -41,12 +41,12 @@ class Test_ActivationFunctions(unittest.TestCase):
     def test_sigmoid_at_small_value(self):
         self.assertAlmostEqual(neuron.sigmoid(-1e10),0,8)
 
-class Test_ForwardPropagation(unittest.TestCase):
+class Test_ForwardPropagationWithSimpleArchitecture(unittest.TestCase):
     def setUp(self):
         self.layer_structure = [2, 3, 4]
         self.params = neuron.generate_parameters(self.layer_structure)
 
-    def test_forward_output_for_simple_architecture(self):
+    def test_shape_of_output(self):
         input_value = np.zeros(self.layer_structure[0])
         out = neuron.forward_pass(input_value, self.params)
         self.assertEqual(np.shape(out), (self.layer_structure[-1],))
