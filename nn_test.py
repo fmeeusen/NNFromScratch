@@ -44,12 +44,29 @@ class Test_ActivationFunctions(unittest.TestCase):
 class Test_ForwardPropagationWithSimpleArchitecture(unittest.TestCase):
     def setUp(self):
         self.layer_structure = [2, 3, 4]
-        self.params = neuron.generate_parameters(self.layer_structure)
+        self.dummy_input = np.zeros(self.layer_structure[0])
+        self.dummy_params = {
+            'w': [np.array(np.ones((self.layer_structure[1], self.layer_structure[0]))),
+                  np.array(np.ones((self.layer_structure[2], self.layer_structure[1]))),
+                ],
+            'b': [
+                np.array([1, -1, 2]),
+                np.array([0, 0, 0, 0])
+                ]     
+                  }
 
-    def test_shape_of_output(self):
-        input_value = np.zeros(self.layer_structure[0])
-        out = neuron.forward_pass(input_value, self.params)
-        self.assertEqual(np.shape(out), (self.layer_structure[-1],))
+    def test_output_for_dummy_input_and_params(self):
+        # --- Manual computation (computed using Claude)---
+        # Layer 0: input is all zeros, so w0 @ x = 0 regardless of weights.
+        #   relu(0 + b0) = relu([1, -1, 2]) = [1, 0, 2]
+        # Layer 1: w1 @ [1, 0, 2] = row sums since all weights are 1 -> [3, 3, 3, 3]
+        #   relu([3, 3, 3, 3] + [0, 0, 0, 0]) = [3, 3, 3, 3]
+        # Final sigmoid: sigmoid(3) ≈ 0.9525741268224334, applied to all 4 elements
+        neuralnet_output = neuron.forward_pass(self.dummy_input, self.dummy_params)
+
+        expected = np.full(4, 1 / (1 + np.exp(-3)))
+        np.testing.assert_allclose(neuralnet_output, expected, rtol=1e-7)
+        self.assertEqual(neuralnet_output.shape, (4,))
         
 
 # if __name__ == "__main__":

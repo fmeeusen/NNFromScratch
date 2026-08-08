@@ -38,7 +38,7 @@ def forward_pass(input_value : np.ndarray, params: dict) -> np.ndarray:
     return sigmoid(x)
 
 def main() -> None:
-    layer_structure = [2,3,3]
+    layer_structure = [2,3,4]
     params=generate_parameters(layer_structure)
     input_value = np.zeros(2)
     x = input_value
@@ -48,7 +48,20 @@ def main() -> None:
     print(f"b: {np.shape(params['b'][0])}")
     x = relu(np.dot(params['w'][0], x) + params['b'][0])
     x = sigmoid(x)
-    print(type(x))
+
+    dummy_input = np.zeros(layer_structure[0])
+    dummy_params = {
+        'w': [np.array(np.ones((layer_structure[0], layer_structure[1]))),
+                np.array(np.ones((layer_structure[2], layer_structure[1]))),
+            ],
+        'b': [
+            np.array([1, -1, 2]),
+            np.array([0, 0, 0, 0])
+            ]     
+                }
+    print(np.shape(dummy_params['w'][0]))
+    print(np.shape(dummy_params['b'][0]))
+    
 
 if __name__ == "__main__":
     main()
