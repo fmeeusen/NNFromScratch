@@ -67,7 +67,17 @@ class Test_ForwardPropagationWithDummyValues(unittest.TestCase):
         expected = np.full(4, 1 / (1 + np.exp(-3)))
         np.testing.assert_allclose(neuralnet_output, expected, rtol=1e-7)
         self.assertEqual(neuralnet_output.shape, (4,))
-        
+
+class Test_lossFunction(unittest.TestCase):
+    def setup(self):
+        self.y_true = np.array([[1., 0., 0.], 
+                                [0., 1., 0.],
+                                [0., 0., 1.]]) # Make up a set of 3 observations with 3 categories 
+        self.y_pred = np.array([[0.333, 0.333, 0.333]],
+                               [0.333, 0.333, 0.333],
+                               [0.333, 0.333, 0.333]
+                               ) 
+
 
 # if __name__ == "__main__":
 #     unittest.main()

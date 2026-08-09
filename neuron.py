@@ -37,6 +37,15 @@ def forward_pass(input_value : np.ndarray, params: dict) -> np.ndarray:
         x = relu(np.dot(params['w'][i], x)+params['b'][i])
     return sigmoid(x)
 
+def mse_loss(y_true : np.ndarray, y_pred: np.ndarray) -> np.ndarray:
+    (num_samples, num_categories) = np.shape(y_true)
+    error = 0 
+    for i in range(num_samples):
+        error += np.square(y_true[i]-y_pred[i])
+    return error/num_samples
+
+
+
 def main() -> None:
     layer_structure = [2,3,4]
     params=generate_parameters(layer_structure)
