@@ -69,15 +69,17 @@ class Test_ForwardPropagationWithDummyValues(unittest.TestCase):
         self.assertEqual(neuralnet_output.shape, (4,))
 
 class Test_lossFunction(unittest.TestCase):
-    def setup(self):
-        self.y_true = np.array([[1., 0., 0.], 
+    def setUp(self):
+        self.y_true = np.array([[1/3, 2/3, 0.], 
                                 [0., 1., 0.],
                                 [0., 0., 1.]]) # Make up a set of 3 observations with 3 categories 
-        self.y_pred = np.array([[0.333, 0.333, 0.333]],
+        self.y_pred = np.array([[0.333, 0.333, 0.333],
                                [0.333, 0.333, 0.333],
-                               [0.333, 0.333, 0.333]
+                               [0.333, 0.333, 0.333]]
                                ) 
-
+    # The correct output is 1/3 * (((0)^2 + (1/3)^2+ (1/3)^2)) + 2* ((1/3)^2 + (1/3)^2 + (2/3)^2)) = 1/3 * (2/9 + 2*(2/3)) = 14/27
+    def test_loss_function_gives_correct_result(self):
+        self.assertAlmostEqual(neuron.mse_loss(self.y_true, self.y_pred), 14/27, places=4)
 
 # if __name__ == "__main__":
 #     unittest.main()

@@ -38,12 +38,7 @@ def forward_pass(input_value : np.ndarray, params: dict) -> np.ndarray:
     return sigmoid(x)
 
 def mse_loss(y_true : np.ndarray, y_pred: np.ndarray) -> np.ndarray:
-    (num_samples, num_categories) = np.shape(y_true)
-    error = 0 
-    for i in range(num_samples):
-        error += np.square(y_true[i]-y_pred[i])
-    return error/num_samples
-
+    return np.mean(np.sum((y_true - y_pred)**2, axis=0))
 
 
 def main() -> None:
