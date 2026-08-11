@@ -6,8 +6,8 @@ class Test_ParameterInitialization(unittest.TestCase):
     def setUp(self):
         self.layer_structure = [2, 3, 4, 5, 6]
         params = neuron.generate_parameters(self.layer_structure)
-        self.flat_weights = np.concatenate(params['w'])
-        self.flat_biases = np.concatenate(params['b'])
+        self.flat_weights = np.concatenate([w.ravel() for w in params['w']])
+        self.flat_biases = np.concatenate([b.ravel() for b in params['b']])
         self.flat_params = np.concatenate([self.flat_weights, self.flat_biases])
 
     def test_flat_weights_and_biases_have_expected_length(self):
@@ -70,16 +70,23 @@ class Test_ForwardPropagationWithDummyValues(unittest.TestCase):
 
 class Test_lossFunction(unittest.TestCase):
     def setUp(self):
-        self.y_true = np.array([[1/3, 2/3, 0.], 
-                                [0., 1., 0.],
-                                [0., 0., 1.]]) # Make up a set of 3 observations with 3 categories 
-        self.y_pred = np.array([[0.333, 0.333, 0.333],
-                               [0.333, 0.333, 0.333],
-                               [0.333, 0.333, 0.333]]
-                               ) 
+        self.y_true = np.array([[1, 2, 3], 
+                                [4, 5., 6.],
+                                [7., 8., 9.]]) # Make up a set of 3 observations with 3 categories 
+        self.y_pred = np.array([[10, 11, 12],
+                               [13, 14, 15],
+                               [16, 17, 18]]
+
+                               ) # TO DO: now do it for a non-symmetric y_pred aswell. 
     # The correct output is 1/3 * (((0)^2 + (1/3)^2+ (1/3)^2)) + 2* ((1/3)^2 + (1/3)^2 + (2/3)^2)) = 1/3 * (2/9 + 2*(2/3)) = 14/27
     def test_loss_function_gives_correct_result(self):
-        self.assertAlmostEqual(neuron.mse_loss(self.y_true, self.y_pred), 14/27, places=4)
+        loss_value = neuron.mse_loss(self.y_true, self.y_pred)
+        num_observations, num_categories = np.shape(self.y_true)
+        error = 0 
+        for i in range(num_observations):
+            error+=np.sum((self.y_true[i]-self.y_pred[i])**2)
+        error = error/num_observations
+        self.assertAlmostEqual(neuron.mse_loss(self.y_true, self.y_pred), error, places=4)
 
 # if __name__ == "__main__":
 #     unittest.main()
